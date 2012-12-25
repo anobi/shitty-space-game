@@ -14,6 +14,8 @@ interval = setInterval(function(){
  draw();
  }, 1000/FPS);
 
+setInterval(bulletLoaded, 200);
+
 function gameOver() {
   gameOverScreen.draw();
   setInterval(function(){
@@ -75,9 +77,11 @@ var enemyBullets = [];
 var stars = [];
 var hitpoints = 100;
 var kills = 0;
+var isLoaded = true;
 
 function update(){
-  if (keydown.space) {
+  if (isLoaded && keydown.space) {
+    isLoaded = false;
     player.shoot();
   }
   if (keydown.left) {
@@ -208,9 +212,13 @@ function handleCollisions() {
   });
 };
 
+function bulletLoaded(){
+  isLoaded = true;
+  clearInterval(bulletLoaded);
+}
+
 player.shoot = function() {
   var bulletPosition = this.midpoint();
-
   playerBullets.push(Bullet({
     speedY: -10,
     speedX: 0,
