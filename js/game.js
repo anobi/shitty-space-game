@@ -71,6 +71,7 @@ var player = {
 
 var playerBullets = [];
 var enemies = [];
+var enemyBullets = [];
 var stars = [];
 var hitpoints = 100;
 var kills = 0;
@@ -103,8 +104,19 @@ function update(){
     return bullet.active;
   });
 
+  enemyBullets.forEach(function(bullet) {
+    bullet.update();
+  });
+
+  enemyBullets = enemyBullets.filter(function(bullet) {
+    return bullet.active;
+  });
+
   enemies.forEach(function(enemy) {
     enemy.update();
+    if(Math.floor((Math.random()*100)+1) == 2) {
+      enemy.shoot();
+    }
   });
 
   enemies = enemies.filter(function(enemy) {
@@ -147,6 +159,9 @@ function draw(){
   enemies.forEach(function(enemy) {
     enemy.draw();
   });
+  enemyBullets.forEach(function(bullet) {
+    bullet.draw();
+  });
 }
 
 function collides(a, b) {
@@ -164,6 +179,19 @@ function handleCollisions() {
         bullet.active = false;
       }
     });
+  });
+
+  enemyBullets.forEach(function(bullet) {
+    if (collides(bullet, player)) {
+      bullet.active = false;
+      if (hitpoints > 0) {
+        hitpoints = hitpoints - 1;
+      }
+      if (hitpoints == 0) {
+        player.explode();
+        gameOver();
+      }
+    }
   });
 
   enemies.forEach(function(enemy) {
@@ -184,7 +212,8 @@ player.shoot = function() {
   var bulletPosition = this.midpoint();
 
   playerBullets.push(Bullet({
-    speed: 5,
+    speedY: -10,
+    speedX: 0,
     x: bulletPosition.x,
     y: bulletPosition.y
   }));
@@ -251,7 +280,7 @@ function Enemy(I) {
 
   I.width = 32;
   I.height = 32;
-
+  I.bullets = [];
   I.inBounds = function() {
     return I.x >= 0 && I.x <= CANVAS_WIDTH &&
       I.y >= 0 && I.y <= CANVAS_HEIGHT;
@@ -276,16 +305,37 @@ function Enemy(I) {
   I.explode = function() {
     this.active = false;
     kills++;
-  };  
+  };
+     
+  I.shoot = function() {
+    var bulletPosition = I.midpoint();
+    var bulletSpeed = 8;
+    var angle = Math.atan2(player.y - I.y, player.x - I.x);
+    var scale_x = Math.cos(angle);
+    var scale_y = Math.sin(angle);
 
+    enemyBullets.push(Bullet({
+      speedX: bulletSpeed * scale_x,
+      speedY: bulletSpeed * scale_y,
+      x: bulletPosition.x,
+      y: bulletPosition.y
+    }));
+  };
+
+  I.midpoint = function() {
+    return {
+      x: I.x + I.width/2,
+      y: I.y + I.height/2
+    };
+  };
   return I;
 };
 
 function Bullet(I) {
   I.active = true;
 
-  I.xVelocity = 0;
-  I.yVelocity = -I.speed;
+  I.xVelocity = I.speedX;
+  I.yVelocity = I.speedY;
   I.width =3;
   I.height = 3;
   I.color = "#FFCC00";
