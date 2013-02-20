@@ -1,7 +1,7 @@
 /*
 ---------------------------------------------------------------------
 Shitty Space Game - A javascript shoot-em-up
-game.js - source file for the core game loop
+player.js - player entity and event handling
 ---------------------------------------------------------------------
 Copyright 2013 Niko Salakka
 https://github.com/anobi
@@ -23,41 +23,62 @@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 ----------------------------------------------------------------------
 */
 
-requestAnimFrame(update);
-
-//handle the game cycle
-function update(){
-
-  //first we handle the I/O
-  if (isLoaded && keydown.space) {
-    isLoaded = false;
-    player.shoot();
+var player = {
+  color: "#00A",
+  x: 220,
+  y: 270,
+  width: 32,
+  height: 32,
+  draw: function() {
+    canvas.fillStyle = this.color;
+    canvas.fillRect(this.x, this.y, this.width, this.height);
   }
-  if (keydown.left) {
-    player.x -= 5;
-  }
-  if (keydown.right) {
-    player.x += 5;
-  }
-  if (keydown.up) {
-    player.y -= 5;
-  }
-  if (keydown.down) {
-    player.y += 5;
-  }
+};
 
-  //update the world
-  updatePlayer();
-  updateEnemies();
-  updateWorld();
+function updatePlayer(){
+  //contain player within the canvas boundaries
+  player.x = player.x.clamp(0, CANVAS_WIDTH - player.width);
+  player.y = player.y.clamp(0, CANVAS_HEIGHT - player.height);
 
-  //and see if things collide
-  handleCollisions();
+  //update the player bullets
+  playerBullets.forEach(function(bullet) {
+    bullet.update();
+  });
 
-  draw();
-  requestAnimFrame(update);
+  //remove the inactive bullets
+  playerBullets = playerBullets.filter(function(bullet) {
+    return bullet.active;
+  });
+}
+
+function bulletLoaded(){
+   isLoaded = true;
+}
+
+player.shoot = function() {
+  var bulletPosition = this.midpoint();
+  playerBullets.push(Bullet({
+    speedY: -10,
+    speedX: 0,
+    x: bulletPosition.x,
+    y: bulletPosition.y
+  }));
+
+  //reload lol
+  setTimeout(bulletLoaded, 200);
+};
+
+player.midpoint = function() {
+  return {
+    x: this.x + this.width/2,
+    y: this.y + this.height/2
+  };
+};
+
+player.explode = function() {
+  this.active = false;
 };
