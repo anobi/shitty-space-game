@@ -8,20 +8,12 @@
 <body>
 <p><u>instructions:</u></p>
 <p>move with arrow keys, shoot with space, kill stuff, don't collide with shit and die</p>
-
-<canvas id="canvas"></canvas>
-
 </body>
 
+<script src="js/init.js"></script>
 <script src="js/player.js"></script>
 <script src="js/entities.js"></script>
 <script src="js/events.js"></script>
-<script src="js/ui.js"></script>
 <script src="js/game.js"></script>
-<script type="text/javascript">
-
-	var ssg = new Game();
-
-</script>
 </html>
 

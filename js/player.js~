@@ -7,7 +7,7 @@ function Player() {
 	this.hitpoints = 0;
 	this.shoting = false; //might need this one for beam weapons?
 	this.reloading = false;
-} 
+}
 
 Player.prototype = {
 
@@ -18,20 +18,19 @@ Player.prototype = {
 		this.size.width = 32;
 		this.size.height = 32;
 	},
-	
+
 	update: function() {
 		//contain player within the canvas boundaries
-		this.position.x = (this.position.x + this.velocity.x).clamp(0, ssg.canvasWidth - this.size.width);
-		this.position.y = (this.position.y + this.velocity.y).clamp(0, ssg.canvasHeight - this.size.height);
-		this.draw();
+		this.position.x = (player.x + player.velocityx).clamp(0, CANVAS_WIDTH - player.width);
+		this.position.y = (player.y + player.velocityy).clamp(0, CANVAS_HEIGHT - player.height);
 	},
 
 	shoot: function(){
 		if(!reloading){
-			var bulletPosition = this.midpoint();
+		var bulletPosition = this.midpoint();
 
-			//reload lol
-			setTimeout(this.reloading = false, 200);
+		//reload lol
+		setTimeout(this.reloading = false, 200);
 		}
 	},
 
@@ -47,7 +46,7 @@ Player.prototype = {
 	},
 
 	draw: function() {
-		ssg.canvas.fillStyle = this.color;
-		ssg.canvas.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
+		canvas.fillStyle = this.color;
+		canvas.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
 	}
 }

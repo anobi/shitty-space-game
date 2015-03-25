@@ -18,13 +18,13 @@ function Game(){
 	this.canvasWidth = 800;
 	this.canvasHeight = 600;
 	this.canvasElement = null;
-	this.canvas = null; //canvas shit should be changed to a global variable
+	this.canvas = null;
 	this.ui = null;
 
 	//game data
 	this.score = 0;
 	this.player = null;
-	this.entities = [];
+	this.entitys = [];
 	this.stars = []; //to be replaced by a star shader
 };
 
@@ -38,7 +38,7 @@ Game.prototype = {
 		}
 
 		this.canvasElement = document.getElementById('canvas');
-		this.canvas = this.canvasElement.getContext('2d');
+		this.canvas = canvasElement.get(0).getContext('2d');
 		this.canvasElement.style = {width: this.canvasWidth, height: this.canvasheight};
 
 		this.ui = new Ui();
@@ -46,30 +46,30 @@ Game.prototype = {
 
 		this.player = new Player();
 		this.player.init();
-		this.entities.push(this.player);
+		this.entitys.push(player);
 
 		this.loaded = true;
-		this.update();
+		update();
 	},
-	
+
 	update: function() {
 
 		if(this.loaded){
 
-			this.canvas.clearRect(0, 0, this.canvasWidth, this.canvasHeight); 
+			canvas.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
 			//update entities
-			for(var i = 0; i < this.entities.length; i++) {
-				this.entities[i].update();
+			for(var i = 0; i < this.entitys.length; i++) {
+				this.entitys[i].update();
 			}
 
 			//handle collisions
 
 			//update ui
-			//this.ui.update();
+			this.ui.update();
 
 			//continue the loop
-			window.setTimeout(this.update, 1000 / 60);
+			window.setTimeout(update, 1000 / 60);
 		}
 	}
 };
