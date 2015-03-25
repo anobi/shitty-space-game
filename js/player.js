@@ -31,6 +31,8 @@ var player = {
   color: "#00A",
   x: 220,
   y: 270,
+  velocityx: 0,
+  velocityy: 0,
   width: 32,
   height: 32,
   draw: function() {
@@ -41,8 +43,8 @@ var player = {
 
 function updatePlayer(){
   //contain player within the canvas boundaries
-  player.x = player.x.clamp(0, CANVAS_WIDTH - player.width);
-  player.y = player.y.clamp(0, CANVAS_HEIGHT - player.height);
+	player.x = (player.x + player.velocityx).clamp(0, CANVAS_WIDTH - player.width);
+	player.y = (player.y + player.velocityy).clamp(0, CANVAS_HEIGHT - player.height);
 
   //update the player bullets
   playerBullets.forEach(function(bullet) {

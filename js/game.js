@@ -32,24 +32,6 @@ requestAnimFrame(update);
 //handle the game cycle
 function update(){
 
-  //first we handle the I/O
-  if (isLoaded && keydown.space) {
-    isLoaded = false;
-    player.shoot();
-  }
-  if (keydown.left) {
-    player.x -= 5;
-  }
-  if (keydown.right) {
-    player.x += 5;
-  }
-  if (keydown.up) {
-    player.y -= 5;
-  }
-  if (keydown.down) {
-    player.y += 5;
-  }
-
   //update the world
   updatePlayer();
   updateEnemies();

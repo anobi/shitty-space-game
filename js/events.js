@@ -1,31 +1,39 @@
-/*
----------------------------------------------------------------------
-Shitty Space Game - A javascript shoot-em-up
-events.js - main event handling functions
----------------------------------------------------------------------
-Copyright 2013 Niko Salakka
-https://github.com/anobi
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+function onKeyDown(e){
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+	if (isLoaded && keydown.space) {
+		isLoaded = false;
+		player.shoot();
+	}
+	if (e.keyCode == 37) {
+		player.velocityx = -5;
+	}
+	if (e.keyCode == 39) {
+		player.velocityx = 5;
+	}
+	if (e.keyCode == 38) {
+		player.velocityy = -5;
+	}
+	if (e.keyCode == 40) {
+		player.velocityy = 5;
+	}
+}
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-----------------------------------------------------------------------
-*/
+function onKeyUp(e){
+
+	if (isLoaded && keydown.space) {
+		isLoaded = false;
+		player.shoot();
+	}
+	if (e.keyCode == 37 || e.keyCode == 39) {
+		player.velocityx = 0;
+	}
+	if (e.keyCode == 38 || e.keyCode == 40) {
+		player.velocityy = 0;
+	}
+}
+window.addEventListener("keydown", onKeyDown, true);
+window.addEventListener("keyup", onKeyUp, true);
 
 function gameOver() {
   gameOverScreen.draw();
