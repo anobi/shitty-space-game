@@ -41,7 +41,8 @@ Game.prototype = {
 
 		this.canvasElement = document.getElementById('canvas');
 		this.canvas = this.canvasElement.getContext('2d');
-		this.canvasElement.style = {width: this.canvasWidth, height: this.canvasheight};
+		this.canvasElement.width = this.canvasWidth;
+		this.canvasElement.height = this.canvasHeight;
 
 		this.ui = new Ui();
 		this.ui.init();
