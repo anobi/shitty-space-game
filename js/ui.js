@@ -40,8 +40,8 @@ function Ui(){
 Ui.prototype = {
 	init: function(){
 
-		this.elements.push(debugScreen);
 		this.elements.push(bg);
+		this.elements.push(debugScreen);
 	},
 
 	update: function(){

@@ -32,10 +32,10 @@
 
 	var gameloop = function() {
 		ssg.update();
-		animFrame(gameloop());
+		setTimeout(gameloop, 1000/60);
 	};
 
-	ssg.animFrame(gameloop());
+gameloop();
 
 </script>
 </html>

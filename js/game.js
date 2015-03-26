@@ -60,6 +60,9 @@ Game.prototype = {
 
 			this.canvas.clearRect(0, 0, this.canvasWidth, this.canvasHeight); 
 
+			//update ui
+			this.ui.update();
+
 			//update entities
 			for(var i = 0; i < this.entities.length; i++) {
 				this.entities[i].update();
@@ -67,8 +70,6 @@ Game.prototype = {
 
 			//handle collisions
 
-			//update ui
-			this.ui.update();
 		}
 	},
 
