@@ -21,6 +21,21 @@
 <script type="text/javascript">
 
 	var ssg = new Game();
+	ssg.init();
+
+	var animFrame = window.requestAnimationFrame ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame    ||
+			window.oRequestAnimationFrame      ||
+			window.msRequestAnimationFrame     ||
+			null ;
+
+	var gameloop = function() {
+		ssg.update();
+		animFrame(gameloop());
+	};
+
+	ssg.animFrame(gameloop());
 
 </script>
 </html>

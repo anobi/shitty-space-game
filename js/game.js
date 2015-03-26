@@ -1,3 +1,5 @@
+
+
 GameStates = {
 	NONE: 0,
 	LOADING: 1,
@@ -49,7 +51,7 @@ Game.prototype = {
 		this.entities.push(this.player);
 
 		this.loaded = true;
-		this.update();
+
 	},
 	
 	update: function() {
@@ -66,10 +68,8 @@ Game.prototype = {
 			//handle collisions
 
 			//update ui
-			//this.ui.update();
-
-			//continue the loop
-			window.setTimeout(this.update, 1000 / 60);
+			this.ui.update();
 		}
-	}
+	},
+
 };
