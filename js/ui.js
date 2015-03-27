@@ -11,17 +11,6 @@ var debugScreen = {
 	}
 };
 
-var bg = {
-	color: "#000",
-	x: 0,
-	y: 0,
-	width: 800,
-	height: 600,
-	draw: function() {
-		ssg.canvas.fillStyle = this.color;
-		ssg.canvas.fillRect(this.x, this.y, this.width, this.height);
-	}
-};
 
 var gameOverScreen = {
 	color: "#F00",
