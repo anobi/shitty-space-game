@@ -21,13 +21,15 @@ function Game(){
 	this.canvasHeight = 600;
 	this.canvasElement = null;
 	this.canvas = null; //canvas shit should be changed to a global variable
+
+	//modules
+	this.world = null;
 	this.ui = null;
+	this.player = null;
 
 	//game data
 	this.score = 0;
-	this.player = null;
 	this.entities = [];
-	this.stars = []; //to be replaced by a star shader
 };
 
 
@@ -44,6 +46,9 @@ Game.prototype = {
 		this.canvasElement.width = this.canvasWidth;
 		this.canvasElement.height = this.canvasHeight;
 
+		this.world = new World();
+		this.world.init();
+		
 		this.ui = new Ui();
 		this.ui.init();
 
@@ -61,13 +66,20 @@ Game.prototype = {
 
 			this.canvas.clearRect(0, 0, this.canvasWidth, this.canvasHeight); 
 
-			//update ui
-			this.ui.update();
+			//
+			//update the screen layers: 1) world, 2) entities, 3) ui
+			//
+			
+			//update the world first
+			this.world.update();
 
 			//update entities
 			for(var i = 0; i < this.entities.length; i++) {
 				this.entities[i].update();
 			}
+
+			//update ui
+			this.ui.update();
 
 			//handle collisions
 
